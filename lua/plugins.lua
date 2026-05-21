@@ -28,7 +28,9 @@ require("lazy").setup({
     "scottmckendry/cyberdream.nvim",
     lazy = false,
     priority = 1000,
-    transparent = true,
+    opts = {
+        transparent = false,
+    },
 },
 {
   "nvim-lualine/lualine.nvim",
@@ -161,7 +163,7 @@ require("lazy").setup({
       "neovim/nvim-lspconfig",
     },
     opts = {
-      ensure_installed = {},
+      ensure_installed = { "clangd" },
     },
   },
 
@@ -176,6 +178,31 @@ require("lazy").setup({
 {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
+  opts = {
+    ensure_installed = {
+      "lua", "vim", "vimdoc",
+      "python", "c", "cpp",
+      "markdown", "markdown_inline",
+      "json", "yaml",
+    },
+    auto_install = true,
+    highlight = { enable = true },
+    indent = { enable = true },
+  },
+},
+{
+  "akinsho/toggleterm.nvim",
+  version = "*",
+  keys = {
+    { "<C-\\>", "<cmd>ToggleTerm<cr>", desc = "切换终端" },
+  },
+  config = function()
+    require("toggleterm").setup({
+      size = 15,
+      open_mapping = "<C-\\>",
+      direction = "horizontal",
+    })
+  end,
 },
 
 {
@@ -190,4 +217,33 @@ require("lazy").setup({
   ft = { "markdown" },
   cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
   build = "cd app && npm install",},
+
+{
+  "lervag/vimtex",
+  lazy = false,
+  ft = { "tex", "bib", "latex" },
+  init = function()
+    vim.g.vimtex_view_method = "general"
+    vim.g.tex_flavor = "latex"
+    vim.g.vimtex_quickfix_mode = 0
+    vim.g.vimtex_compiler_latexmk = {
+      out_dir = "build",
+    }
+  end,
+},
+
+{
+  "coder/claudecode.nvim",
+  dependencies = { "folke/snacks.nvim" },
+  config = true,
+  keys = {
+    { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "打开/关闭 Claude" },
+    { "<leader>af", "<cmd>ClaudeCodeFocus<cr>", desc = "聚焦 Claude" },
+    { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "恢复 Claude" },
+    { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "发送到 Claude" },
+    { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", desc = "添加当前文件" },
+    { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "接受差异" },
+    { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "拒绝差异" },
+  },
+},
 })
