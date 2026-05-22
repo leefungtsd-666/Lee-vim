@@ -278,6 +278,7 @@ require("lazy").setup({
 {
   "coder/claudecode.nvim",
   dependencies = { "folke/snacks.nvim" },
+  cmd = "ClaudeCode",
   config = true,
   keys = {
     { "<leader>ac", "<cmd>ClaudeCode<cr>", desc = "打开/关闭 Claude" },

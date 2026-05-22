@@ -24,6 +24,12 @@ vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "切到下方窗口" })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "切到上方窗口" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "切到右侧窗口" })
 
+-- terminal 模式下 Ctrl+hjkl 切换窗口（<C-\><C-n> 退出 terminal 模式）
+vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "终端:切到左侧窗口" })
+vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "终端:切到下方窗口" })
+vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-w>k", { desc = "终端:切到上方窗口" })
+vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "终端:切到右侧窗口" })
+
 vim.keymap.set("n", "<A-Left>",  "<cmd>vertical resize -2<cr>", { desc = "窗口变窄" })
 vim.keymap.set("n", "<A-Right>", "<cmd>vertical resize +2<cr>", { desc = "窗口变宽" })
 vim.keymap.set("n", "<A-Up>",    "<cmd>resize +2<cr>",          { desc = "窗口变高" })
