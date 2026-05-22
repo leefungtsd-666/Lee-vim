@@ -234,6 +234,48 @@ require("lazy").setup({
 },
 
 {
+  "goolord/alpha-nvim",
+  event = "VimEnter",
+  config = function()
+    local alpha = require("alpha")
+    local dashboard = require("alpha.themes.dashboard")
+
+    dashboard.section.header.val = {
+      "                                                     ",
+      "  ██╗     ███████╗███████╗    ██╗   ██╗██╗███╗   ███╗",
+      "  ██║     ██╔════╝██╔════╝    ██║   ██║██║████╗ ████║",
+      "  ██║     █████╗  █████╗      ██║   ██║██║██╔████╔██║",
+      "  ██║     ██╔══╝  ██╔══╝      ╚██╗ ██╔╝██║██║╚██╔╝██║",
+      "  ███████╗███████╗███████╗     ╚████╔╝ ██║██║ ╚═╝ ██║",
+      "  ╚══════╝╚══════╝╚══════╝      ╚═══╝  ╚═╝╚═╝     ╚═╝",
+      "                                                     ",
+    }
+
+    dashboard.section.buttons.val = {
+      dashboard.button("e", "    新建文件", ":ene <BAR> startinsert<CR>"),
+      dashboard.button("f", "    搜索文件", ":Telescope find_files<CR>"),
+      dashboard.button("c", "    打开 Claude", ":ClaudeCode<CR>"),
+      dashboard.button("p", "    插件管理", ":Lazy<CR>"),
+      dashboard.button("q", "    退出", ":qa<CR>"),
+    }
+
+    -- 启动后更新 footer 显示时间
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "LazyVimStarted",
+      callback = function()
+        dashboard.section.footer.val = {
+          "",
+          "      " .. vim.fn.strftime("%Y-%m-%d %H:%M"),
+        }
+        pcall(vim.cmd, "AlphaRedraw")
+      end,
+    })
+
+    alpha.setup(dashboard.opts)
+  end,
+},
+
+{
   "coder/claudecode.nvim",
   dependencies = { "folke/snacks.nvim" },
   config = true,
