@@ -46,11 +46,4 @@ vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "代码动�
 vim.keymap.set("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<cr>", { desc = "Markdown 预览" })
 vim.keymap.set("n", "<leader>mr", "<cmd>RenderMarkdown toggle<cr>", { desc = "Markdown 渲染切换" })
 
----vimtex 快捷键 (LaTeX)
-vim.keymap.set("n", "<leader>ll", "<cmd>VimtexCompile<cr>",   { desc = "编译/停止编译" })
-vim.keymap.set("n", "<leader>lv", "<cmd>VimtexView<cr>",       { desc = "查看 PDF" })
-vim.keymap.set("n", "<leader>lk", "<cmd>VimtexStop<cr>",       { desc = "停止编译" })
-vim.keymap.set("n", "<leader>lc", "<cmd>VimtexClean<cr>",      { desc = "清理辅助文件" })
-vim.keymap.set("n", "<leader>lt", "<cmd>VimtexTOCToggle<cr>",  { desc = "切换目录" })
-vim.keymap.set("n", "<leader>le", "<cmd>VimtexErrors<cr>",     { desc = "显示编译错误" })
-vim.keymap.set("n", "<leader>li", "<cmd>VimtexInfo<cr>",       { desc = "查看项目信息" })
+

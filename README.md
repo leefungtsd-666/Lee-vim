@@ -24,7 +24,7 @@ Neovim 配置，基于 lazy.nvim 管理插件。
 | [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) | 终端管理 |
 | [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim) | Markdown 渲染 |
 | [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim) | Markdown 浏览器预览 |
-| [vimtex](https://github.com/lervag/vimtex) | LaTeX 编辑支持 |
+
 | [claudecode.nvim](https://github.com/coder/claudecode.nvim) | AI 编码助手 |
 
 ## 基础设置
@@ -114,17 +114,6 @@ Neovim 配置，基于 lazy.nvim 管理插件。
 | `<leader>mp` | `MarkdownPreviewToggle` | 浏览器预览 |
 | `<leader>mr` | `RenderMarkdown toggle` | 渲染切换 |
 
-### Vimtex (LaTeX)
-
-| 快捷键 | 命令 | 说明 |
-|--------|------|------|
-| `<leader>ll` | `VimtexCompile` | 编译/停止编译 |
-| `<leader>lv` | `VimtexView` | 查看 PDF |
-| `<leader>lk` | `VimtexStop` | 停止编译 |
-| `<leader>lc` | `VimtexClean` | 清理辅助文件 |
-| `<leader>lt` | `VimtexTOCToggle` | 切换目录 |
-| `<leader>le` | `VimtexErrors` | 显示编译错误 |
-| `<leader>li` | `VimtexInfo` | 查看项目信息 |
 
 ### ClaudeCode (AI 编码助手)
 

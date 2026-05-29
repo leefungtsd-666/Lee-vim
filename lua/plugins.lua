@@ -219,19 +219,6 @@ require("lazy").setup({
   cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
   build = "cd app && npm install",},
 
-{
-  "lervag/vimtex",
-  lazy = false,
-  ft = { "tex", "bib", "latex" },
-  init = function()
-    vim.g.vimtex_view_method = "general"
-    vim.g.tex_flavor = "latex"
-    vim.g.vimtex_quickfix_mode = 0
-    vim.g.vimtex_compiler_latexmk = {
-      out_dir = "build",
-    }
-  end,
-},
 
 {
   "goolord/alpha-nvim",
