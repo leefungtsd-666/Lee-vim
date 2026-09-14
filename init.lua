@@ -3,5 +3,5 @@ vim.opt.relativenumber = true
 require("keymaps")
 require("basic")
 require("plugins")
-vim.cmd.colorscheme("tokyonight")
+vim.cmd.colorscheme("blue")
 require("lsp")

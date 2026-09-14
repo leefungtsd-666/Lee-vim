@@ -1,10 +1,64 @@
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+--============================================================================
+-- LSP 配置：语言服务器管理 + 自动补全
+-- 通过 mason-lspconfig 统一安装和配置所有语言服务器
+--============================================================================
 
+-- 1. 计算 capabilities（集成 cmp_nvim_lsp 的补全能力）
+local capabilities = vim.lsp.protocol.make_client_capabilities()
 local ok_cmp_lsp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if ok_cmp_lsp then
   capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 end
 
+-- 2. mason-lspconfig：自动安装并配置语言服务器
+local ok_mlsp, mason_lspconfig = pcall(require, "mason-lspconfig")
+if ok_mlsp then
+  mason_lspconfig.setup({
+    ensure_installed = {
+      "lua_ls",        -- Lua / Neovim 配置
+      "pyright",       -- Python
+      "clangd",        -- C / C++
+      "ts_ls",         -- JavaScript / TypeScript
+      "rust_analyzer", -- Rust
+      "gopls",         -- Go
+    },
+    automatic_installation = true,
+    handlers = {
+      -- 默认 handler：对所有语言服务器使用统一的 capabilities
+      function(server_name)
+        local ok_lspconfig, lspconfig = pcall(require, "lspconfig")
+        if not ok_lspconfig then
+          return
+        end
+
+        -- lua_ls 特殊配置：识别 Neovim API
+        if server_name == "lua_ls" then
+          lspconfig.lua_ls.setup({
+            capabilities = capabilities,
+            settings = {
+              Lua = {
+                runtime = { version = "LuaJIT" },
+                diagnostics = { globals = { "vim" } },
+                workspace = {
+                  library = vim.api.nvim_get_runtime_file("", true),
+                  checkThirdParty = false,
+                },
+                telemetry = { enable = false },
+              },
+            },
+          })
+        else
+          -- 其他服务器使用默认配置
+          lspconfig[server_name].setup({
+            capabilities = capabilities,
+          })
+        end
+      end,
+    },
+  })
+end
+
+-- 3. nvim-cmp 自动补全配置
 local ok_cmp, cmp = pcall(require, "cmp")
 local ok_luasnip, luasnip = pcall(require, "luasnip")
 
@@ -30,14 +84,3 @@ if ok_cmp then
     },
   })
 end
-
-vim.lsp.config("pyright", {
-  capabilities = capabilities,
-})
-
-vim.lsp.config("clangd", {
-  capabilities = capabilities,
-})
-
-vim.lsp.enable("pyright")
-vim.lsp.enable("clangd")

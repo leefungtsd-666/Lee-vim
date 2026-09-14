@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git filter-branch:*)"
+      "Bash(git filter-branch:*)",
+      "Bash(sed -i 's/^      cmd = \"ToggleTerm\",$/      cmd = \"ToggleTerm\",/' lua/plugins.lua)",
+      "Bash(sed -n '249,251p' lua/plugins.lua)",
+      "Bash(sed -i 's/^\\\\t\\\\tcmd = \"ToggleTerm\",$/\\\\tcmd = \"ToggleTerm\",/' lua/plugins.lua)",
+      "Bash(sed -n '248,252p' lua/plugins.lua)",
+      "Bash(sed -i '/\"mason-org\\\\/mason.nvim\", opts = {}/s/opts = {}/opts = {}, cmd = \"Mason\"/' lua/plugins.lua)",
+      "Bash(sed -n '248,253p' lua/plugins.lua)",
+      "Bash(sed -n '213,222p' lua/plugins.lua)"
     ]
   }
 }

@@ -42,6 +42,17 @@ vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "查看引用" })
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "重命名" })
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "代码动作" })
 
+-- LSP 导航扩展（gd / gr / K 等基础快捷键见上方原有配置）
+vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "跳到声明" })
+vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "查看实现" })
+vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, { desc = "查看类型定义" })
+
+-- Telescope LSP / 搜索快捷键
+vim.keymap.set("n", "<leader>ds", "<cmd>Telescope lsp_document_symbols<cr>", { desc = "当前文件符号" })
+vim.keymap.set("n", "<leader>ws", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", { desc = "工作区符号" })
+vim.keymap.set("n", "<leader>fs", "<cmd>Telescope grep_string<cr>", { desc = "搜索光标下单词" })
+vim.keymap.set("n", "<leader>fw", "<cmd>Telescope live_grep<cr>", { desc = "全项目实时搜索" })
+
 ---markdown快捷键
 vim.keymap.set("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<cr>", { desc = "Markdown 预览" })
 vim.keymap.set("n", "<leader>mr", "<cmd>RenderMarkdown toggle<cr>", { desc = "Markdown 渲染切换" })

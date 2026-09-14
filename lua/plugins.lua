@@ -84,6 +84,59 @@ require("lazy").setup({
   },
 },
 {
+  "akinsho/bufferline.nvim",
+  version = "*",
+  dependencies = "nvim-tree/nvim-web-devicons",
+  config = function()
+    require("bufferline").setup({
+      options = {
+        mode = "buffers",
+        numbers = "none",
+        close_command = "bdelete! %d",
+        indicator = {
+          style = "icon",
+          icon = "▎",
+        },
+        buffer_close_icon = "󰅖",
+        modified_icon = "●",
+        close_icon = "",
+        max_name_length = 18,
+        truncate_names = true,
+        diagnostics = "nvim_lsp",
+        diagnostics_indicator = function(count, level)
+          local icon = level:match("error") and " " or " "
+          return " " .. icon .. count
+        end,
+        offsets = {
+          {
+            filetype = "neo-tree",
+            text = "File Explorer",
+            highlight = "Directory",
+            text_align = "center",
+          },
+        },
+        color_icons = true,
+        show_buffer_icons = true,
+        show_buffer_close_icons = true,
+        show_close_icon = true,
+        persist_buffer_sort = true,
+        separator_style = "thin",
+        always_show_bufferline = true,
+        hover = {
+          enabled = true,
+          delay = 200,
+          reveal = { "close" },
+        },
+        sort_by = "id",
+      },
+    })
+
+    vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<CR>", { desc = "上一个缓冲区" })
+    vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<CR>", { desc = "下一个缓冲区" })
+    vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "关闭缓冲区" })
+  end,
+},
+{
   "nvim-telescope/telescope.nvim",
   dependencies = { "nvim-lua/plenary.nvim" },
   cmd = "Telescope",
@@ -160,12 +213,10 @@ require("lazy").setup({
   {
     "mason-org/mason-lspconfig.nvim",
     dependencies = {
-      { "mason-org/mason.nvim", opts = {} },
+      { "mason-org/mason.nvim", opts = {}, cmd = "Mason" },
       "neovim/nvim-lspconfig",
     },
-    opts = {
-      ensure_installed = { "clangd" },
-    },
+    -- setup 统一在 lua/lsp.lua 中调用，以便传入 handlers 和 capabilities
   },
 
   {
@@ -194,6 +245,7 @@ require("lazy").setup({
 {
   "akinsho/toggleterm.nvim",
   version = "*",
+  cmd = "ToggleTerm",
   keys = {
     { "<C-\\>", "<cmd>ToggleTerm<cr>", desc = "切换终端" },
   },
@@ -227,23 +279,55 @@ require("lazy").setup({
     local alpha = require("alpha")
     local dashboard = require("alpha.themes.dashboard")
 
+    -- ASCII 艺术标题
     dashboard.section.header.val = {
-      "                                                     ",
       "  ██╗     ███████╗███████╗    ██╗   ██╗██╗███╗   ███╗",
       "  ██║     ██╔════╝██╔════╝    ██║   ██║██║████╗ ████║",
       "  ██║     █████╗  █████╗      ██║   ██║██║██╔████╔██║",
       "  ██║     ██╔══╝  ██╔══╝      ╚██╗ ██╔╝██║██║╚██╔╝██║",
       "  ███████╗███████╗███████╗     ╚████╔╝ ██║██║ ╚═╝ ██║",
       "  ╚══════╝╚══════╝╚══════╝      ╚═══╝  ╚═╝╚═╝     ╚═╝",
-      "                                                     ",
+    }
+
+    -- Header: 水平居中 + 高亮颜色
+    dashboard.section.header.opts = {
+      position = "center",
+      hl = "Keyword",
     }
 
     dashboard.section.buttons.val = {
-      dashboard.button("e", "    新建文件", ":ene <BAR> startinsert<CR>"),
-      dashboard.button("f", "    搜索文件", ":Telescope find_files<CR>"),
-      dashboard.button("c", "    打开 Claude", ":ClaudeCode<CR>"),
-      dashboard.button("p", "    插件管理", ":Lazy<CR>"),
-      dashboard.button("q", "    退出", ":qa<CR>"),
+      dashboard.button("e", "     新建文件", ":ene <BAR> startinsert<CR>"),
+      dashboard.button("f", "     查找文件", ":Telescope find_files<CR>"),
+      dashboard.button("r", "     最近文件", ":Telescope oldfiles<CR>"),
+      dashboard.button("g", "     全文搜索", ":Telescope live_grep<CR>"),
+      dashboard.button("o", "     文件树", ":Neotree<CR>"),
+      dashboard.button("c", "     打开 Claude", ":ClaudeCode<CR>"),
+      dashboard.button("m", "     LSP 管理", ":Mason<CR>"),
+      dashboard.button("p", "     插件管理", ":Lazy<CR>"),
+      dashboard.button("q", "     退出", ":qa<CR>"),
+    }
+
+    -- Buttons: 水平居中
+    dashboard.section.buttons.opts = {
+      position = "center",
+      spacing = 1,
+    }
+
+    -- Footer: 水平居中
+    dashboard.section.footer.opts = {
+      position = "center",
+      hl = "Comment",
+    }
+
+    -- 垂直布局: 顶部留足够空白，让内容整体居中
+    local top_padding = math.max(2, math.floor(vim.fn.winheight(0) * 0.18))
+    dashboard.opts.layout = {
+      { type = "padding", val = top_padding },
+      dashboard.section.header,
+      { type = "padding", val = 3 },
+      dashboard.section.buttons,
+      { type = "padding", val = 1 },
+      dashboard.section.footer,
     }
 
     -- 启动后更新 footer 显示时间
@@ -251,8 +335,7 @@ require("lazy").setup({
       pattern = "LazyVimStarted",
       callback = function()
         dashboard.section.footer.val = {
-          "",
-          "      " .. vim.fn.strftime("%Y-%m-%d %H:%M"),
+          "    " .. vim.fn.strftime("%Y-%m-%d %H:%M"),
         }
         pcall(vim.cmd, "AlphaRedraw")
       end,
