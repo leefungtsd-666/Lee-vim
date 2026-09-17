@@ -1,8 +1,9 @@
 vim.g.mapleader = " "
 vim.g.localmapleader = " "
-vim.keymap.set("i","jk","<ESC>")
-vim.keymap.set("n","<leader>q",":q<enter>",{desc = "退出"})
-vim.keymap.set("n","<leader>w",":w<enter>",{desc = "保存"})
+-- 基础操作
+vim.keymap.set("i", "jk", "<Esc>", { desc = "退出插入模式" })
+vim.keymap.set("n", "<leader>q", "<cmd>quit<CR>", { desc = "退出窗口" })
+vim.keymap.set("n", "<leader>w", "<cmd>write<CR>", { desc = "保存文件" })
 vim.keymap.set("n", "<leader>e", function()
   for _, win in ipairs(vim.api.nvim_list_wins()) do
     local buf = vim.api.nvim_win_get_buf(win)
@@ -15,9 +16,9 @@ vim.keymap.set("n", "<leader>e", function()
   vim.cmd("Neotree")
 end, { desc = "文件树" })
 
------窗口设置
-vim.keymap.set("n","<c-up>",":sp<enter>",{desc = "水平分屏(上下)"})
-vim.keymap.set("n","<c-right>",":vsp<enter>",{desc = "垂直分屏(左右)"})
+-- 窗口管理
+vim.keymap.set("n", "<C-Up>", "<cmd>split<CR>", { desc = "水平分屏（上下）" })
+vim.keymap.set("n", "<C-Right>", "<cmd>vsplit<CR>", { desc = "垂直分屏（左右）" })
 
 vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "切到左侧窗口" })
 vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "切到下方窗口" })
@@ -25,35 +26,33 @@ vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "切到上方窗口" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "切到右侧窗口" })
 
 -- terminal 模式下 Ctrl+hjkl 切换窗口（<C-\><C-n> 退出 terminal 模式）
-vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "终端:切到左侧窗口" })
-vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "终端:切到下方窗口" })
-vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-w>k", { desc = "终端:切到上方窗口" })
-vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "终端:切到右侧窗口" })
+vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "终端：切到左侧窗口" })
+vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "终端：切到下方窗口" })
+vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-w>k", { desc = "终端：切到上方窗口" })
+vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "终端：切到右侧窗口" })
 
 vim.keymap.set("n", "<A-Left>",  "<cmd>vertical resize -2<cr>", { desc = "窗口变窄" })
 vim.keymap.set("n", "<A-Right>", "<cmd>vertical resize +2<cr>", { desc = "窗口变宽" })
 vim.keymap.set("n", "<A-Up>",    "<cmd>resize +2<cr>",          { desc = "窗口变高" })
 vim.keymap.set("n", "<A-Down>",  "<cmd>resize -2<cr>",          { desc = "窗口变矮" })
 
---LSP快捷键
+-- LSP 导航与代码操作
 vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "查看说明" })
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "跳到定义" })
 vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "查看引用" })
-vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "重命名" })
+vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "重命名符号" })
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "代码动作" })
 
--- LSP 导航扩展（gd / gr / K 等基础快捷键见上方原有配置）
 vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "跳到声明" })
 vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "查看实现" })
 vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, { desc = "查看类型定义" })
 
--- Telescope LSP / 搜索快捷键
-vim.keymap.set("n", "<leader>ds", "<cmd>Telescope lsp_document_symbols<cr>", { desc = "当前文件符号" })
-vim.keymap.set("n", "<leader>ws", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", { desc = "工作区符号" })
+-- 查找：统一放在 <leader>f 分类下
+vim.keymap.set("n", "<leader>fd", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "当前文件符号" })
+vim.keymap.set("n", "<leader>fw", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>", { desc = "工作区符号" })
 vim.keymap.set("n", "<leader>fs", "<cmd>Telescope grep_string<cr>", { desc = "搜索光标下单词" })
-vim.keymap.set("n", "<leader>fw", "<cmd>Telescope live_grep<cr>", { desc = "全项目实时搜索" })
 
----markdown快捷键
+-- Markdown
 vim.keymap.set("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<cr>", { desc = "Markdown 预览" })
 vim.keymap.set("n", "<leader>mr", "<cmd>RenderMarkdown toggle<cr>", { desc = "Markdown 渲染切换" })
 

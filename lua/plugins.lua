@@ -15,6 +15,20 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   {
+    "linux-cultist/venv-selector.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim" },
+    ft = "python",
+    cmd = { "VenvSelect", "VenvSelectCached" },
+    keys = {
+      { "<leader>cv", "<cmd>VenvSelect<CR>", desc = "选择 Python 虚拟环境", ft = "python" },
+    },
+    opts = {
+      options = {
+        notify_user_on_venv_activation = true,
+      },
+    },
+  },
+  {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
     lazy = false,
@@ -35,7 +49,10 @@ require("lazy").setup({
 },
 {
   "nvim-lualine/lualine.nvim",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
+    "linux-cultist/venv-selector.nvim",
+  },
   opts = {
     options = {
       theme = "auto",
@@ -59,6 +76,7 @@ require("lazy").setup({
         },
       },
       lualine_x = {
+        "venv-selector",
         {
           "filetype",
           icon_only = false,
@@ -144,6 +162,7 @@ require("lazy").setup({
     { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "查找文件" },
     { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "全文搜索" },
     { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "查找缓冲区" },
+    { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "最近文件" },
     { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "查找帮助" },
   },
 },
@@ -204,7 +223,26 @@ require("lazy").setup({
 {
   "folke/which-key.nvim",
   event = "VeryLazy",
-  opts = {},
+  opts = {
+    preset = "modern",
+    delay = 250,
+    win = {
+      border = "rounded",
+      title = " 快捷键 ",
+      title_pos = "center",
+    },
+    layout = {
+      width = { min = 22, max = 36 },
+      spacing = 4,
+    },
+    spec = {
+      { "<leader>a", group = "AI 助手", icon = "󰚩" },
+      { "<leader>b", group = "缓冲区", icon = "󰓩" },
+      { "<leader>c", group = "代码与环境", icon = "󰅩" },
+      { "<leader>f", group = "查找与搜索", icon = "󰍉" },
+      { "<leader>m", group = "Markdown", icon = "󰍔" },
+    },
+  },
 },
 {
   "sphamba/smear-cursor.nvim",
