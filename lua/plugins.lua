@@ -15,6 +15,12 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   {
+    "mfussenegger/nvim-dap",
+    config = function()
+      require("debugging").setup()
+    end,
+  },
+  {
     "linux-cultist/venv-selector.nvim",
     dependencies = { "nvim-telescope/telescope.nvim" },
     ft = "python",
@@ -236,6 +242,7 @@ require("lazy").setup({
       spacing = 4,
     },
     spec = {
+      { "<leader>d", group = "调试" },
       { "<leader>a", group = "AI 助手", icon = "󰚩" },
       { "<leader>b", group = "缓冲区", icon = "󰓩" },
       { "<leader>c", group = "代码与环境", icon = "󰅩" },
