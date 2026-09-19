@@ -38,14 +38,14 @@ vim.keymap.set("n", "<A-Down>",  "<cmd>resize -2<cr>",          { desc = "窗口
 
 -- LSP 导航与代码操作
 vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "查看说明" })
-vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "跳到定义" })
-vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "查看引用" })
+vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { desc = "跳到定义" })
+vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", { desc = "查看引用" })
 vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "重命名符号" })
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "代码动作" })
 
 vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "跳到声明" })
-vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "查看实现" })
-vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, { desc = "查看类型定义" })
+vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", { desc = "查看实现" })
+vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "查看类型定义" })
 
 -- 查找：统一放在 <leader>f 分类下
 vim.keymap.set("n", "<leader>fd", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "当前文件符号" })
