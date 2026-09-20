@@ -20,7 +20,6 @@ if ok_mlsp then
       "clangd",        -- C / C++
       "ts_ls",         -- JavaScript / TypeScript
       "rust_analyzer", -- Rust
-      "gopls",         -- Go
     },
     automatic_installation = true,
     handlers = {

@@ -391,6 +391,53 @@ require("lazy").setup({
 },
 
 {
+  "milanglacier/minuet-ai.nvim",
+  -- 在 FileType 事件前初始化，确保首次打开的文件也启用行内补全。
+  lazy = false,
+  keys = {
+    { "<leader>at", "<cmd>Minuet virtualtext toggle<cr>", desc = "切换 AI 自动补全（当前文件）" },
+  },
+  opts = {
+    provider = "openai_fim_compatible",
+    n_completions = 1,
+    context_window = 8000,
+    request_timeout = 10,
+    throttle = 1500,
+    debounce = 600,
+    -- 从配置目录读取密钥，方便在多台设备之间迁移。
+    enable_predicates = {
+      function()
+        local ok, secrets = pcall(require, "secrets")
+        return ok and type(secrets.deepseek_api_key) == "string" and secrets.deepseek_api_key ~= ""
+      end,
+    },
+    provider_options = {
+      openai_fim_compatible = {
+        name = "deepseek",
+        end_point = "https://api.deepseek.com/beta/completions",
+        model = "deepseek-v4-flash",
+        api_key = function()
+          local ok, secrets = pcall(require, "secrets")
+          return ok and secrets.deepseek_api_key or ""
+        end,
+        optional = { max_tokens = 256, top_p = 0.9 },
+      },
+    },
+    virtualtext = {
+      auto_trigger_ft = { "*" },
+      auto_trigger_ignore_ft = { "TelescopePrompt", "neo-tree", "alpha", "lazy", "mason", "help" },
+      show_on_completion_menu = false,
+      keymap = {
+        accept = "<A-y>",
+        accept_line = "<A-l>",
+        next = "<A-]>",
+        prev = "<A-[>",
+        dismiss = "<A-e>",
+      },
+    },
+  },
+},
+{
   "coder/claudecode.nvim",
   dependencies = { "folke/snacks.nvim" },
   cmd = "ClaudeCode",
