@@ -392,6 +392,9 @@ require("lazy").setup({
 
 {
   "milanglacier/minuet-ai.nvim",
+  init = function()
+    require("ai_credentials").setup()
+  end,
   -- 在 FileType 事件前初始化，确保首次打开的文件也启用行内补全。
   lazy = false,
   keys = {
@@ -404,12 +407,8 @@ require("lazy").setup({
     request_timeout = 10,
     throttle = 1500,
     debounce = 600,
-    -- 从配置目录读取密钥，方便在多台设备之间迁移。
     enable_predicates = {
-      function()
-        local ok, secrets = pcall(require, "secrets")
-        return ok and type(secrets.deepseek_api_key) == "string" and secrets.deepseek_api_key ~= ""
-      end,
+      function() return require("ai_credentials").get() ~= nil end,
     },
     provider_options = {
       openai_fim_compatible = {
@@ -417,8 +416,7 @@ require("lazy").setup({
         end_point = "https://api.deepseek.com/beta/completions",
         model = "deepseek-v4-flash",
         api_key = function()
-          local ok, secrets = pcall(require, "secrets")
-          return ok and secrets.deepseek_api_key or ""
+          return require("ai_credentials").get()
         end,
         optional = { max_tokens = 256, top_p = 0.9 },
       },
