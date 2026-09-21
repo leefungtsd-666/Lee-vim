@@ -15,6 +15,14 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   {
+    "kungfusheep/mfd.nvim",
+    -- Use the local source archive when available; otherwise install from GitHub.
+    dir = vim.fn.isdirectory(vim.fn.stdpath("data") .. "/local-plugins/mfd.nvim") == 1
+      and (vim.fn.stdpath("data") .. "/local-plugins/mfd.nvim") or nil,
+    lazy = false,
+    priority = 1000,
+  },
+  {
     "mfussenegger/nvim-dap",
     config = function()
       require("debugging").setup()
