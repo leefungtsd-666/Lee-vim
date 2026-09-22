@@ -13,6 +13,14 @@ end
 -- 2. mason-lspconfig：自动安装并配置语言服务器
 local ok_mlsp, mason_lspconfig = pcall(require, "mason-lspconfig")
 if ok_mlsp then
+  -- Pyright 原生简体中文诊断：在 LSP initialize 请求中发送 locale。
+  -- 使用当前 Neovim API，在 Mason 自动启用服务器之前配置。
+  vim.lsp.config("pyright", {
+    capabilities = capabilities,
+    before_init = function(params)
+      params.locale = "zh-cn"
+    end,
+  })
   mason_lspconfig.setup({
     ensure_installed = {
       "lua_ls",        -- Lua / Neovim 配置
@@ -22,6 +30,8 @@ if ok_mlsp then
       "rust_analyzer", -- Rust
     },
     automatic_installation = true,
+    -- Python 统一使用 Pyright，避免 BasedPyright 重复诊断。
+    automatic_enable = { exclude = { "basedpyright" } },
     handlers = {
       -- 默认 handler：对所有语言服务器使用统一的 capabilities
       function(server_name)
