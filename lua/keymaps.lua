@@ -47,6 +47,31 @@ vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "跳到声明" })
 vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", { desc = "查看实现" })
 vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "查看类型定义" })
 
+-- 光标必须位于诊断范围内；首次打开不抢焦点，再按 gl 可进入浮窗复制。
+vim.keymap.set("n", "gl", function()
+  local float_buf = vim.diagnostic.open_float({
+    scope = "cursor",
+    focusable = true,
+    border = "rounded",
+    source = true,
+    header = "",
+    prefix = "",
+    severity_sort = true,
+  })
+  if not float_buf then
+    vim.notify("光标处没有诊断信息", vim.log.levels.INFO)
+  end
+end, { desc = "查看光标处诊断", silent = true })
+
+-- Neovim 默认 gr 系列也使用 Telescope，避免进入另一种结果列表。
+-- 保留 gr 前缀等待，以便 grr/gri/grn 等仍然可用。
+vim.keymap.set("n", "grr", "<cmd>Telescope lsp_references<CR>", { desc = "查看引用" })
+vim.keymap.set("n", "gri", "<cmd>Telescope lsp_implementations<CR>", { desc = "查看实现" })
+vim.keymap.set("n", "grt", "<cmd>Telescope lsp_type_definitions<CR>", { desc = "查看类型定义" })
+vim.keymap.set("n", "grn", vim.lsp.buf.rename, { desc = "重命名符号" })
+vim.keymap.set({ "n", "x" }, "gra", vim.lsp.buf.code_action, { desc = "代码操作" })
+vim.keymap.set("n", "gO", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "当前文件符号" })
+
 -- 查找：统一放在 <leader>f 分类下
 vim.keymap.set("n", "<leader>fd", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "当前文件符号" })
 vim.keymap.set("n", "<leader>fw", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>", { desc = "工作区符号" })

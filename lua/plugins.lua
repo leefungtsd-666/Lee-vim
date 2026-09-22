@@ -250,6 +250,17 @@ require("lazy").setup({
       spacing = 4,
     },
     spec = {
+      -- 仅翻译提示，不重新绑定 Vim 原生动作。
+      { "g", group = "跳转与代码操作" },
+      { "gg", desc = "跳到文件开头", mode = { "n", "x", "o" } },
+      { "ge", desc = "上一个单词结尾", mode = { "n", "x", "o" } },
+      { "gU", desc = "转为大写", mode = { "n", "x" } },
+      { "gu", desc = "转为小写", mode = { "n", "x" } },
+      { "g~", desc = "切换大小写", mode = { "n", "x" } },
+      { "gw", desc = "格式化文本", mode = { "n", "x" } },
+      { "gc", group = "注释", mode = { "n", "x" } },
+      { "gcc", desc = "切换当前行注释" },
+      { "g%", desc = "反向跳转匹配符号", mode = { "n", "x", "o" } },
       { "<leader>d", group = "调试" },
       { "<leader>a", group = "AI 助手", icon = "󰚩" },
       { "<leader>b", group = "缓冲区", icon = "󰓩" },
